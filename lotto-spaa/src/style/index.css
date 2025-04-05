@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'The Last Shuriken';
+  src: url('../public/The\ Last\ Shuriken.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1 {
+  font-family: 'The Last Shuriken', sans-serif;
+}
