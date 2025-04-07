@@ -94,7 +94,7 @@ class Bet {
 
     async deleteBet(betId) {
         try {
-            const [result] = await master.execute(
+            const [result] = await this.master.execute(
                 "DELETE FROM bets WHERE bet_id = ?",
                 [betId]
             );

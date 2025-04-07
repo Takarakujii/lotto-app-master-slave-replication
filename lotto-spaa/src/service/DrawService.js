@@ -10,7 +10,7 @@ export const generateNewDraw = async () => {
         "Content-Type": "application/json",
         token: localStorage.getItem('token')
       },
-      withCredentials: true
+      // withCredentials: true
     });
 
     if (!response.data?.success) {
@@ -32,7 +32,7 @@ export const fetchLastWinningNumber = async (token) => {
         "Content-Type": "application/json",
         token: `${token}`,
       },
-      withCredentials: true
+      // withCredentials: true
     });
     console.log("last draw", response.data);
     if (!response.data?.success) {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = "http://localhost:9000/v1";
+const API_BASE_URL = "http://lotto-api:9000/v1";
 
 export const placeBet = async (betNumber, token) => {
   try {
@@ -13,7 +13,7 @@ export const placeBet = async (betNumber, token) => {
         "Content-Type": "application/json",
         token: `${token}`,
       },
-      withCredentials: true
+      // withCredentials: true
     });
     console.log("check error", response.data)
     if (!response.data?.success) {

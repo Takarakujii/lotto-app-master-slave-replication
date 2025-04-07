@@ -11,7 +11,7 @@ import { placeBet } from './src/service/BetService.js'
 import axios from 'axios';
 import { fetchLastWinningNumber } from './src/service/DrawService.js';
 
-const API_BASE_URL = 'http://localhost:9000/v1';
+const API_BASE_URL = 'http://lotto-api:9000/v1';
 const PRIMARY = 3000;
 const isPRIMARY = process.env.PORT == PRIMARY;
 const IS_PRODUCTION = process.env.ENV === 'production';
@@ -48,7 +48,7 @@ async function fetchLastDraw(token) {
         "Content-Type": "application/json",
         token: `${token}`,
       },
-      withCredentials: true
+      // withCredentials: true
     });
 
     // console.log("📄 Last draw API resxponse:", response.data);

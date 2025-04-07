@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:9000/v1';
+const API_BASE_URL = 'http://lotto-api:9000/v1';
 
 
 export const fetchWinResult = async () => {
@@ -11,7 +11,7 @@ export const fetchWinResult = async () => {
                 "Content-Type": "application/json",
                 token: localStorage.getItem('token')
             },
-            withCredentials: true
+            // withCredentials: true
         });
         return response.data;
     } catch (error) {

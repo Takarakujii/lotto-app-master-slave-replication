@@ -16,7 +16,7 @@ const useAccountForm = () => {
                     "Content-Type": "application/json",
                     token: localStorage.getItem('token')
                 },
-                withCredentials: true,
+                // withCredentials: true,
             });
 
             if (response.data.success) {

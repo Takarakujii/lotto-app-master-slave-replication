@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useCountdown } from '../service/CountdownContext';
-import { fetchLastWinningNumber, generateNewDraw } from '../service/DrawService';
+import { generateNewDraw } from '../service/DrawService';
 
 const LandingPage = () => {
-    const {countdown}  = useCountdown();
+    const { countdown, lastdraw, requestLastDraw } = useCountdown();
     const [isHovered, setIsHovered] = useState(false);
     const [animate, setAnimate] = useState(false);
     const [lastDrawNumbers, setLastDrawNumbers] = useState([0, 0, 0, 0, 0, 0]);
@@ -12,27 +12,29 @@ const LandingPage = () => {
     const [seconds, setSeconds] = useState(0);
 
     useEffect(() => {
-        const fetchDrawData = async () => {
+        // Request last draw data from socket when component mounts
+        if (requestLastDraw) {
+            requestLastDraw();
+            setIsLoading(false);
+        }
+    }, [requestLastDraw]);
+
+    // Process lastdraw data when it arrives from socket
+    useEffect(() => {
+        if (lastdraw) {
             try {
-                const response = await fetchLastWinningNumber();
-                console.log("Response from fetchLastWinningNumber:", response);
-                
-                if (response?.success && response?.winning_number) {
-                    const numbers = response.winning_number.split('-').map(Number);
+                // Handle the string format (e.g., "01-02-03-04-05-06")
+                const numbers = lastdraw.split('-').map(Number);
+                if (numbers.length === 6) {
                     setLastDrawNumbers(numbers);
-                    console.log("Last Draw Numbers:", numbers); 
-                } else {
-                    console.error("No last draw data available.");
+                    setIsLoading(false);
                 }
             } catch (err) {
-                console.error("Failed to fetch last draw:", err); 
-            } finally {
+                console.error("Error processing lastdraw:", err);
                 setIsLoading(false);
             }
-        };
-
-        fetchDrawData();
-    }, []);
+        }
+    }, [lastdraw]);
 
     // Countdown animation effect
     useEffect(() => {
@@ -58,11 +60,9 @@ const LandingPage = () => {
         try {
             const response = await generateNewDraw();
             if (response?.success) {
-                // Refresh the last winning numbers after new draw
-                const fetchResponse = await fetchLastWinningNumber();
-                if (fetchResponse?.lastDraw?.winning_number) {
-                    const numbers = fetchResponse.lastDraw.winning_number.split('-').map(Number);
-                    setLastDrawNumbers(numbers);
+                // Request the updated draw numbers from socket
+                if (requestLastDraw) {
+                    requestLastDraw();
                 }
             }
         } catch (error) {

@@ -15,7 +15,7 @@ const topUpAccount = async (amount) => {
           "Content-Type": "application/json",
           token: localStorage.getItem("token"),
         },
-        withCredentials: true,
+        // withCredentials: true,
       }
     );
     return response.data;
